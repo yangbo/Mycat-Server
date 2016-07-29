@@ -431,6 +431,7 @@ public class MySQLConnection extends BackendAIOConnection {
 		int txIsoLationSyn = (txIsolation == clientTxIsoLation) ? 0 : 1;
 		int autoCommitSyn = (conAutoComit == expectAutocommit) ? 0 : 1;
 		int synCount = schemaSyn + charsetSyn + txIsoLationSyn + autoCommitSyn;
+		LOGGER.debug("*** syncCount = "+synCount);
 		if (synCount == 0) {
 			// not need syn connection
 			sendQueryCmd(rrn.getStatement());

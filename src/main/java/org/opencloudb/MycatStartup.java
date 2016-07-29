@@ -23,12 +23,14 @@
  */
 package org.opencloudb;
 
+import java.io.PrintWriter;
+import java.sql.DriverManager;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.log4j.helpers.LogLog;
 import org.opencloudb.config.ZkConfig;
 import org.opencloudb.config.model.SystemConfig;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @author mycat
@@ -37,6 +39,7 @@ public final class MycatStartup {
     private static final String dateFormat = "yyyy-MM-dd HH:mm:ss";
 
     public static void main(String[] args) {
+    	DriverManager.setLogWriter(new PrintWriter(System.out));
         //是否启用zk配置，/myid.properties中的loadZk属性决定，默认不启用，从本地xml文件中读取配置
         ZkConfig.instance().initZk();
 

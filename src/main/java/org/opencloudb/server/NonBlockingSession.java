@@ -291,7 +291,7 @@ public class NonBlockingSession implements Session {
 		if (!conn.isFromSlaveDB()
 				|| node.canRunnINReadDB(getSource().isAutocommit())) {
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("found connections in session to use " + conn
+				LOGGER.debug("found connections in session to use id=" + conn.getId()
 						+ " for " + node);
 			}
 

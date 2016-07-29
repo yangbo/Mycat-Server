@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.base.Strings;
+import com.sequoiadb.util.logger;
+
 import org.apache.log4j.Logger;
 import org.opencloudb.MycatConfig;
 import org.opencloudb.MycatServer;
@@ -180,8 +182,9 @@ public class SingleNodeHandler implements ResponseHandler, Terminatable,
 		}
 		conn.setResponseHandler(this);
 		try {
-			conn.execute(node, session.getSource(), session.getSource()
-					.isAutocommit());
+			boolean isAutoCommit = session.getSource().isAutocommit();
+			LOGGER.debug("**** _execute autocommit = " + isAutoCommit);
+			conn.execute(node, session.getSource(), isAutoCommit);
 		} catch (Exception e1) {
 			executeException(conn, e1);
 			return;
@@ -289,7 +292,7 @@ public class SingleNodeHandler implements ResponseHandler, Terminatable,
 		conn.recordSql(source.getHost(), source.getSchema(),
                 node.getStatement());
         // 判断是调用存储过程的话不能在这里释放链接
-		if (!rrs.isCallStatement()||(rrs.isCallStatement()&&rrs.getProcedure().isResultSimpleValue()))
+		if ( !rrs.isCallStatement()||(rrs.isCallStatement()&&rrs.getProcedure().isResultSimpleValue()) )
         {
 			session.releaseConnectionIfSafe(conn, LOGGER.isDebugEnabled(),
 					false);
